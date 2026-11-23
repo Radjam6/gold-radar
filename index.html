@@ -7,74 +7,89 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#080d16;color:#e8edf5;font-family:Arial,sans-serif}
-header{padding:22px;background:#111a29;border-bottom:1px solid #263548}
+header{padding:20px;background:#111a29;border-bottom:1px solid #263548}
 .gold{color:#e8b94f}
 h1{margin:0;font-size:27px;letter-spacing:1px}
-header p{color:#94a3b8;font-size:13px;margin:8px 0 0}
-main{max-width:700px;margin:auto;padding:15px}
-.card{background:#111a29;border:1px solid #263548;border-radius:22px;padding:22px;margin-bottom:16px}
-.row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.label{font-size:13px;color:#91a0b6;letter-spacing:1px}
-.price{font-size:32px;font-weight:bold;margin:10px 0}
-.signal{text-align:center;font-size:35px;font-weight:bold;margin:25px 0}
+header p{color:#94a3b8;font-size:12px;margin-top:8px}
+main{max-width:700px;margin:auto;padding:14px}
+.card{background:#111a29;border:1px solid #263548;border-radius:20px;padding:18px;margin-bottom:15px}
+.label{font-size:12px;color:#94a3b8;letter-spacing:1px}
+.price{font-size:32px;font-weight:bold;margin:12px 0}
+.signal{text-align:center;font-size:36px;font-weight:bold;margin:20px 0}
 .buy{color:#4ade80}
 .sell{color:#fb7185}
 .wait{color:#e8b94f}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.box{background:#16263a;padding:18px;border-radius:18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.box{background:#16263a;padding:14px;border-radius:15px}
 .box small{color:#94a3b8}
-.box strong{display:block;margin-top:8px;font-size:20px}
-input,select{width:100%;background:#080d16;color:white;border:1px solid #263548;border-radius:15px;padding:16px;font-size:16px}
-.inputrow{display:grid;grid-template-columns:40% 60%;align-items:center;gap:10px;margin:14px 0}
-.inputrow label{color:#94a3b8}
-button{width:100%;padding:18px;background:#f4c45e;color:#111827;font-weight:bold;font-size:17px;border:none;border-radius:16px;margin-top:15px}
+.box strong{display:block;margin-top:8px;font-size:18px}
+.inputrow{margin:14px 0}
+label{display:block;color:#94a3b8;margin-bottom:7px;font-size:14px}
+input,select{width:100%;background:#080d16;color:white;border:1px solid #263548;border-radius:12px;padding:14px;font-size:16px}
+button{width:100%;padding:17px;background:#f4c45e;color:#111827;font-weight:bold;font-size:17px;border:none;border-radius:14px;margin-top:12px}
 .note{font-size:13px;color:#94a3b8;line-height:1.6}
-hr{border:0;border-top:1px solid #263548;margin:20px 0}
-@media(max-width:380px){.inputrow{grid-template-columns:1fr}}
+hr{border:0;border-top:1px solid #263548;margin:18px 0}
+.warning{color:#fbbf24}
+@media(max-width:380px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
 
 <header>
 <h1 class="gold">GOLD RADAR</h1>
-<p>XAUUSD • MOBILE MARKET INTELLIGENCE • PROTOTYPE</p>
+<p>XAUUSD • MARKET INTELLIGENCE • ANALYSIS TOOL</p>
 </header>
 
 <main>
 
 <div class="card">
-<div class="label">PRICE (MANUAL)</div>
-<div class="price" id="displayPrice">—</div>
+<div class="label">MARKET PRICE</div>
+<div class="price" id="displayPrice">---</div>
 <div class="signal wait" id="signal">WAIT</div>
-<p id="reason" class="note">Enter readings to assess the market.</p>
+<p id="reason" class="note">Enter your market readings to begin.</p>
 </div>
 
 <div class="grid">
 <div class="box">
-<small>Bias</small>
-<strong id="bias">—</strong>
+<small>Market bias</small>
+<strong id="bias">---</strong>
 </div>
 <div class="box">
 <small>Agreement score</small>
-<strong id="score">—</strong>
+<strong id="score">---</strong>
 </div>
 <div class="box">
 <small>Entry reference</small>
-<strong id="entry">—</strong>
+<strong id="entry">---</strong>
 </div>
 <div class="box">
-<small>Risk state</small>
-<strong id="risk">—</strong>
+<small>Risk status</small>
+<strong id="risk">---</strong>
+</div>
+<div class="box">
+<small>Stop loss</small>
+<strong id="slDisplay">---</strong>
+</div>
+<div class="box">
+<small>Take profit</small>
+<strong id="tpDisplay">---</strong>
+</div>
+<div class="box">
+<small>Risk / Reward</small>
+<strong id="rrDisplay">---</strong>
+</div>
+<div class="box">
+<small>Signal strength</small>
+<strong id="strength">---</strong>
 </div>
 </div>
 
 <div class="card">
-<h3>Market inputs</h3>
+<h3>Market readings</h3>
 
 <div class="inputrow">
-<label>Price</label>
-<input id="price" type="number" step="0.01" placeholder="XAUUSD price">
+<label>Current XAUUSD price</label>
+<input id="price" type="number" step="0.01" placeholder="Enter price">
 </div>
 
 <div class="inputrow">
@@ -106,34 +121,50 @@ hr{border:0;border-top:1px solid #263548;margin:20px 0}
 
 <div class="inputrow">
 <label>RSI (M15)</label>
-<input id="rsi" type="number" min="0" max="100" placeholder="0–100">
+<input id="rsi" type="number" min="0" max="100" placeholder="0 - 100">
 </div>
 
 <div class="inputrow">
 <label>News risk</label>
 <select id="news">
-<option>Low / none known</option>
+<option>Low</option>
 <option>Moderate</option>
 <option>High</option>
 </select>
+</div>
+
+<div class="inputrow">
+<label>Planned stop loss (optional)</label>
+<input id="sl" type="number" step="0.01" placeholder="SL price">
+</div>
+
+<div class="inputrow">
+<label>Planned take profit (optional)</label>
+<input id="tp" type="number" step="0.01" placeholder="TP price">
 </div>
 
 <button onclick="assess()">ASSESS MARKET</button>
 </div>
 
 <div class="card">
-<h3>Assessment guide</h3>
-<p class="note">
-The assessment combines manually supplied H1, M15 and M5 direction
-with RSI and news risk. It does not fetch live prices or verify
-market conditions independently.
+<h3>Assessment</h3>
+<p id="details" class="note">
+The system evaluates directional agreement, momentum and risk.
 </p>
 <hr>
 <p class="note">
-<strong class="gold">Important:</strong> This prototype does not calculate
-a verified stop loss, take profit, ATR, liquidity zone, order block
-or live support/resistance. Always confirm your setup on your chart
-before entering a trade.
+<strong class="gold">Risk reminder:</strong>
+A signal is not a guarantee. Confirm candle closes, market structure,
+liquidity, spreads and economic news before trading.
+</p>
+</div>
+
+<div class="card">
+<h3>GOLD RADAR</h3>
+<p class="note">
+This tool uses manually entered readings. It does not fetch live
+prices, news, charts or indicators. Its agreement score is a
+rule-based estimate, not a probability of winning.
 </p>
 </div>
 
@@ -148,12 +179,11 @@ const m15=document.getElementById("m15").value;
 const m5=document.getElementById("m5").value;
 const rsi=parseFloat(document.getElementById("rsi").value);
 const news=document.getElementById("news").value;
+const sl=parseFloat(document.getElementById("sl").value);
+const tp=parseFloat(document.getElementById("tp").value);
 
-const signal=document.getElementById("signal");
-const reason=document.getElementById("reason");
-
-if(!price || isNaN(price)){
-alert("Enter a valid XAUUSD price.");
+if(!price||isNaN(price)){
+alert("Enter a valid gold price.");
 return;
 }
 
@@ -164,34 +194,34 @@ return;
 
 document.getElementById("displayPrice").innerText=price.toFixed(2);
 
-let bullish=0;
-let bearish=0;
+let bull=0;
+let bear=0;
 
-if(h1==="Bullish") bullish+=2;
-if(h1==="Bearish") bearish+=2;
+if(h1==="Bullish")bull+=3;
+if(h1==="Bearish")bear+=3;
 
-if(m15==="Bullish") bullish+=2;
-if(m15==="Bearish") bearish+=2;
+if(m15==="Bullish")bull+=2;
+if(m15==="Bearish")bear+=2;
 
-if(m5==="Bullish") bullish+=1;
-if(m5==="Bearish") bearish+=1;
+if(m5==="Bullish")bull+=1;
+if(m5==="Bearish")bear+=1;
 
-if(rsi>=50&&rsi<=70) bullish+=1;
-if(rsi>=30&&rsi<50) bearish+=1;
+if(rsi>=50&&rsi<=70)bull+=1;
+if(rsi>=30&&rsi<50)bear+=1;
 
-if(rsi>75) bullish-=1;
-if(rsi<25) bearish-=1;
+if(rsi>75)bull-=1;
+if(rsi<25)bear-=1;
 
 let direction="WAIT";
 let confidence=0;
 
-if(bullish>bearish){
+if(bull>bear){
 direction="BUY";
-confidence=Math.min(100,Math.round((bullish/6)*100));
+confidence=Math.round((bull/7)*100);
 }
-else if(bearish>bullish){
+else if(bear>bull){
 direction="SELL";
-confidence=Math.min(100,Math.round((bearish/6)*100));
+confidence=Math.round((bear/7)*100);
 }
 
 if(news==="High"){
@@ -199,13 +229,11 @@ direction="WAIT";
 }
 
 if(h1==="Neutral"||m15==="Neutral"){
-if(direction!=="WAIT"){
-confidence=Math.max(0,confidence-15);
-}
+if(direction!=="WAIT")confidence-=15;
 }
 
 if(m5==="Neutral"&&direction!=="WAIT"){
-confidence=Math.max(0,confidence-10);
+confidence-=10;
 }
 
 if(direction==="BUY"&&rsi>=75){
@@ -216,6 +244,9 @@ if(direction==="SELL"&&rsi<=25){
 direction="WAIT";
 }
 
+confidence=Math.max(0,Math.min(100,confidence));
+
+const signal=document.getElementById("signal");
 signal.innerText=direction;
 signal.className="signal "+direction.toLowerCase();
 
@@ -223,28 +254,85 @@ document.getElementById("bias").innerText=
 direction==="WAIT"?"NO CLEAR SETUP":direction;
 
 document.getElementById("score").innerText=
-direction==="WAIT"?"LOW / BLOCKED":confidence+"%";
+direction==="WAIT"?"BLOCKED":confidence+"%";
 
 document.getElementById("entry").innerText=
-direction==="WAIT"?"—":price.toFixed(2);
+direction==="WAIT"?"---":price.toFixed(2);
+
+document.getElementById("strength").innerText=
+direction==="WAIT"?"LOW":
+confidence>=70?"STRONG":
+confidence>=50?"MODERATE":"WEAK";
 
 document.getElementById("risk").innerText=
 news==="High"?"HIGH NEWS RISK":
 confidence>=70?"MODERATE":
 "CAUTION";
 
+document.getElementById("slDisplay").innerText=
+isNaN(sl)?"NOT SET":sl.toFixed(2);
+
+document.getElementById("tpDisplay").innerText=
+isNaN(tp)?"NOT SET":tp.toFixed(2);
+
+let rr="---";
+
+if(direction==="BUY"&&!isNaN(sl)&&!isNaN(tp)){
+let risk=price-sl;
+let reward=tp-price;
+if(risk>0&&reward>0){
+rr=(reward/risk).toFixed(2)+"R";
+}else{
+rr="INVALID";
+}
+}
+
+if(direction==="SELL"&&!isNaN(sl)&&!isNaN(tp)){
+let risk=sl-price;
+let reward=price-tp;
+if(risk>0&&reward>0){
+rr=(reward/risk).toFixed(2)+"R";
+}else{
+rr="INVALID";
+}
+}
+
+document.getElementById("rrDisplay").innerText=rr;
+
+let message="";
+
 if(news==="High"){
-reason.innerText="High news risk detected. Stand aside and reassess after the event.";
+message="High news risk. No trade recommendation. Wait until volatility settles.";
 }
 else if(direction==="WAIT"){
-reason.innerText="Signals are conflicting, RSI is extreme, or directional agreement is insufficient. Wait for confirmation.";
+message="No clear directional advantage. Wait for stronger alignment and confirmation.";
 }
 else{
-reason.innerText=direction+" bias detected from the supplied readings. Confirm structure, liquidity, candle close and risk before execution.";
+message=direction+" bias detected. Agreement score: "+confidence+"%. Confirm structure, liquidity and candle confirmation.";
 }
+
+if(direction!=="WAIT"&&confidence<50){
+message+=" Warning: weak agreement.";
+}
+
+if(rr==="INVALID"){
+message+=" Your SL or TP placement is inconsistent with the proposed direction or entry.";
+}
+
+document.getElementById("reason").innerText=message;
+
+document.getElementById("details").innerText=
+"H1: "+h1+
+" | M15: "+m15+
+" | M5: "+m5+
+" | RSI: "+rsi+
+" | News: "+news+
+" | Bull score: "+bull+
+" | Bear score: "+bear+
+" | Agreement: "+confidence+"%.";
 
 }
 </script>
 
 </body>
-</html>
+  </html>
