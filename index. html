@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GOLD RADAR</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080d16;color:#e8edf5;font-family:Arial,sans-serif}
+header{padding:20px;background:#111a29;border-bottom:1px solid #263347}
+.gold{color:#e8b94f}
+h1{margin:0;font-size:25px;letter-spacing:2px}
+header p{color:#94a3b8;font-size:12px;margin:7px 0 0}
+main{max-width:700px;margin:auto;padding:15px}
+.card{background:#111a29;border:1px solid #263347;border-radius:16px;padding:17px;margin-bottom:14px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.label{font-size:12px;color:#91a0b6;letter-spacing:1px}
+.price{font-size:30px;font-weight:bold;margin:12px 0}
+.badge{padding:8px 12px;border-radius:10px;font-weight:bold;font-size:13px}
+.buy{background:#123a2b;color:#4ade80}
+.sell{background:#421f28;color:#fb7185}
+.wait{background:#353041;color:#c4b5fd}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.metric{background:#0b1220;padding:14px;border-radius:12px}
+.metric strong{display:block;font-size:21px;margin-top:8px}
+button{background:#d5a63c;color:#101827;border:0;border-radius:10px;padding:13px;font-weight:bold;width:100%;font-size:15px}
+.small{font-size:12px;color:#94a3b8;line-height:1.6}
+.bar{height:8px;background:#263347;border-radius:8px;margin-top:10px;overflow:hidden}
+.fill{height:100%;background:#d5a63c;width:50%}
+table{width:100%;border-collapse:collapse}
+td{padding:12px 5px;border-bottom:1px solid #263347;font-size:14px}
+td:last-child{text-align:right}
+footer{text-align:center;color:#64748b;padding:20px;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+<h1><span class="gold">GOLD</span> RADAR 🛰️</h1>
+<p>XAUUSD INTELLIGENCE SYSTEM</p>
+</header>
+<main>
+<div class="card">
+<div class="row">
+<div>
+<div class="label">MARKET STATUS</div>
+<h2 style="margin:8px 0" id="status">DEMO MODE</h2>
+</div>
+<div class="badge wait" id="signal">WAIT</div>
+</div>
+<p class="small">This prototype uses simulated values. It is NOT connected to live gold prices.</p>
+</div>
+
+<div class="card">
+<div class="label">XAUUSD PRICE (SIMULATED)</div>
+<div class="price gold" id="price">$4,050.00</div>
+<div class="row">
+<span class="small">Demo price movement</span>
+<span id="change" class="small">0.00</span>
+</div>
+</div>
+
+<div class="grid">
+<div class="card">
+<div class="label">SIGNAL SCORE</div>
+<strong id="score" style="font-size:30px;margin-top:12px">--/100</strong>
+<div class="bar"><div class="fill" id="fill"></div></div>
+</div>
+<div class="card">
+<div class="label">MARKET BIAS</div>
+<strong id="bias" style="font-size:21px;margin-top:12px">NEUTRAL</strong>
+<p class="small">Simulated analysis</p>
+</div>
+</div>
+
+<div class="card">
+<div class="label">TIMEFRAME OVERVIEW</div>
+<table>
+<tr><td>M15</td><td id="m15">Neutral</td></tr>
+<tr><td>H1</td><td id="h1">Neutral</td></tr>
+<tr><td>H4</td><td id="h4">Neutral</td></tr>
+<tr><td>D1</td><td id="d1">Neutral</td></tr>
+</table>
+</div>
+
+<div class="card">
+<div class="label">TECHNICAL INDICATORS (DEMO)</div>
+<table>
+<tr><td>RSI</td><td id="rsi">--</td></tr>
+<tr><td>MACD</td><td id="macd">--</td></tr>
+<tr><td>EMA 20 / 50</td><td id="ema">--</td></tr>
+<tr><td>ATR</td><td id="atr">--</td></tr>
+</table>
+</div>
+
+<div class="card">
+<div class="label">TRADE PLAN</div>
+<table>
+<tr><td>Entry</td><td id="entry">--</td></tr>
+<tr><td>Stop Loss</td><td id="sl">--</td></tr>
+<tr><td>Target 1</td><td id="tp1">--</td></tr>
+<tr><td>Target 2</td><td id="tp2">--</td></tr>
+<tr><td>Target 3</td><td id="tp3">--</td></tr>
+</table>
+<p class="small">Illustrative calculations only. No real trade recommendation.</p>
+</div>
+
+<div class="card">
+<div class="label">RADAR EXPLANATION</div>
+<p id="reason" class="small">Demo engine awaiting refresh.</p>
+</div>
+
+<div class="card">
+<div class="label">NEWS RISK</div>
+<h3 class="gold">NEWS FEED NOT CONNECTED</h3>
+<p class="small">This prototype does not monitor economic calendars. Check major USD releases manually before trading.</p>
+</div>
+
+<div class="card">
+<button onclick="refreshRadar()">REFRESH RADAR</button>
+<p class="small" style="text-align:center">Refresh generates illustrative demo data only.</p>
+</div>
+
+<div class="card">
+<div class="label">SIGNAL HISTORY</div>
+<div id="history" class="small">No demo scans yet.</div>
+</div>
+</main>
+<footer>GOLD RADAR • Prototype • Not financial advice</footer>
+
+<script>
+let price=4050;
+let historyList=[];
+
+function refreshRadar(){
+let direction=Math.random()>.5?"BULLISH":"BEARISH";
+let score=Math.floor(50+Math.random()*49);
+let signal=score>78?(direction==="BULLISH"?"BUY":"SELL"):"WAIT";
+let move=(Math.random()-.5)*12;
+price+=move;
+let rsi=Math.floor(25+Math.random()*50);
+let entry=price;
+let distance=2+Math.random()*4;
+let sign=direction==="BULLISH"?1:-1;
+
+document.getElementById("price").textContent="$"+price.toFixed(2);
+document.getElementById("change").textContent=(move>=0?"+":"")+move.toFixed(2);
+document.getElementById("signal").textContent=signal;
+document.getElementById("signal").className="badge "+(signal==="BUY"?"buy":signal==="SELL"?"sell":"wait");
+document.getElementById("score").textContent=score+"/100";
+document.getElementById("fill").style.width=score+"%";
+document.getElementById("bias").textContent=direction;
+document.getElementById("bias").style.color=direction==="BULLISH"?"#4ade80":"#fb7185";
+
+["m15","h1","h4","d1"].forEach((id)=>{
+document.getElementById(id).textContent=direction;
+});
+
+document.getElementById("rsi").textContent=rsi;
+document.getElementById("macd").textContent=(Math.random()>.5?"Positive":"Negative");
+document.getElementById("ema").textContent="Simulated";
+document.getElementById("atr").textContent=(1+Math.random()*5).toFixed(2);
+
+document.getElementById("entry").textContent=entry.toFixed(2);
+document.getElementById("sl").textContent=(entry-sign*distance).toFixed(2);
+document.getElementById("tp1").textContent=(entry+sign*distance).toFixed(2);
+document.getElementById("tp2").textContent=(entry+sign*distance*2).toFixed(2);
+document.getElementById("tp3").textContent=(entry+sign*distance*3).toFixed(2);
+
+document.getElementById("reason").textContent=
+"SIMULATED scan: "+direction+" bias with score "+score+
+". This is random demo output and is not calculated from live candles, liquidity, news or real indicators.";
+
+let time=new Date().toLocaleTimeString();
+historyList.unshift(time+" — "+signal+" — "+direction+" — "+score+"/100 (DEMO)");
+historyList=historyList.slice(0,5);
+document.getElementById("history").innerHTML=historyList.join("<br><br>");
+}
+
+refreshRadar();
+</script>
+</body>
+</html>
